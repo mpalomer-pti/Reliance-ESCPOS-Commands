@@ -60,10 +60,12 @@ QR Code® is a registered trademark of DENSO WAVE INCORPORATED.
 .. index:: $1D $6B - Barcode Generator
 
 .. py:attribute:: Barcode Generator (1) - $1D $6B m d1...dk $00
-.. py:attribute:: Barcode Generator (2) - $1D $6B m n d1...dk
+.. py:attribute:: Barcode Generator (2) - $1D $6B m n d1...dn
 
 
-       - Defines and prints a 1D barcode using the mode specified by `m`:
+       - Defines and prints a 1D barcode using the mode specified by `m`. This command has two forms. Form 1 does not take the string length `n`, but reads all bytes after `m` and before the first NUL byte (0x00) received as the string to encode. Form 2 of the command reads `n` bytes following `n` as the string to encode. The form used is determined by the value of `m` received.
+
+       -Form 1: 0 ≤ `m` ≤ 20
        
         +-------+----------------+-------------------+----------------------------+
         | m     | Barcode System | No. of Characters | Valid Characters (decimal) |
@@ -75,7 +77,7 @@ QR Code® is a registered trademark of DENSO WAVE INCORPORATED.
         | 8     | Code  128      | 1 ≤ k             | 1 ≤ d ≤ 127                |
         +-------+----------------+-------------------+----------------------------+
         
-        - To use the second form of the command, which also takes the string length `n` and does not end with a NUL byte, a value of `m` from this table must be used:
+        - Form 2: 65 ≤ `m` ≤ 90
         
         +-------+----------------+-------------------+----------------------------+
         | m     | Barcode System | No. of Characters | Valid Characters (decimal) |
@@ -83,8 +85,7 @@ QR Code® is a registered trademark of DENSO WAVE INCORPORATED.
         | 73    | Code  128      | 1 ≤ k             | 0 ≤ d ≤ 127                |
         +-------+----------------+-------------------+----------------------------+
         
-       - This form of the command allows a NUL byte to be encoded when used with Code 128.
-
+       - Form 2 of the command allows a NUL byte to be encoded when used with Code 128.
        
        - Currently only Code 39 and Code 128 are supported.
 
